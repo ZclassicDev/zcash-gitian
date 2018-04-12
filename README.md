@@ -1,9 +1,9 @@
-Zcash deterministic builds
-==========================
+Zclassic deterministic builds
+=============================
 
-This is a deterministic build environment for [Zcash](https://github.com/zcash/zcash/) that uses [Gitian](https://gitian.org/).
+This is a deterministic build environment for [Zclassic](https://github.com/ZclassicDev/zclassic/) that uses [Gitian](https://gitian.org/).
 
-Gitian provides a way to be reasonably certain that the Zcash executables are really built from the exact source on GitHub and have not been tampered with. It also makes sure that the same, tested dependencies are used and statically built into the executable.
+Gitian provides a way to be reasonably certain that the Zclassic executables are really built from the exact source on GitHub and have not been tampered with. It also makes sure that the same, tested dependencies are used and statically built into the executable.
 
 Multiple developers build from source code by following a specific descriptor ("recipe"), cryptographically sign the result, and upload the resulting signature. These results are compared and only if they match is the build accepted.
 
@@ -150,8 +150,8 @@ How to get started
 ### Edit settings in gitian.yml
 
 ```yaml
-# URL of repository containing Zcash source code.
-zcash_git_repo_url: 'https://github.com/zcash/zcash'
+# URL of repository containing Zclassic source code.
+zcash_git_repo_url: 'https://github.com/ZclassicDev/zclassic'
 
 # Specific tag or branch you want to build.
 zcash_version: 'master'
