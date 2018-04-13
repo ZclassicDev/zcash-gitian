@@ -26,7 +26,7 @@ commitFiles=true
 read -d '' usage <<- EOF
 Usage: $scriptName [-c|u|v|b|s|B|o|h|j|m|] signer version
 
-Run this script from the directory containing the zcash, gitian-builder, and gitian.sigs repositories.
+Run this script from the directory containing the zclassic, gitian-builder, and gitian.sigs repositories.
 
 Arguments:
 signer          GPG signer to sign each build assert file
@@ -172,7 +172,7 @@ fi
 echo ${COMMIT}
 
 # Set up build
-pushd ./zcash
+pushd ./zclassic
 git fetch
 git checkout ${COMMIT}
 popd
@@ -189,7 +189,7 @@ then
 	echo ""
 	pushd ./gitian-builder
 	mkdir -p inputs
-	make -C ../zcash/depends download SOURCES_PATH=`pwd`/cache/common
+	make -C ../zclassic/depends download SOURCES_PATH=`pwd`/cache/common
 
 	# Linux
 	if [[ $linux = true ]]
@@ -197,9 +197,9 @@ then
             echo ""
 	    echo "Compiling ${VERSION} Linux"
 	    echo ""
-	    ./bin/gbuild -j ${proc} -m ${mem} --commit zcash=${COMMIT} --url zcash=${url} ../zcash/contrib/gitian-descriptors/gitian-linux.yml
-	    ./bin/gsign -p "$signProg" --signer "$SIGNER" --release ${VERSION} --destination ../gitian.sigs/ ../zcash/contrib/gitian-descriptors/gitian-linux.yml
-	    mv build/out/zcash-*.tar.gz build/out/src/zcash-*.tar.gz ../zcash-binaries/${VERSION}
+	    ./bin/gbuild -j ${proc} -m ${mem} --commit zcash=${COMMIT} --url zcash=${url} ../zclassic/contrib/gitian-descriptors/gitian-linux.yml
+	    ./bin/gsign -p "$signProg" --signer "$SIGNER" --release ${VERSION} --destination ../gitian.sigs/ ../zclassic/contrib/gitian-descriptors/gitian-linux.yml
+	    mv build/out/zclassic-*.tar.gz build/out/src/zclassic-*.tar.gz ../zcash-binaries/${VERSION}
 	fi
 	popd
 
@@ -224,7 +224,7 @@ then
 	echo ""
 	echo "Verifying ${VERSION} Linux"
 	echo ""
-	./bin/gverify -v -d ../gitian.sigs/ -r ${VERSION} ../zcash/contrib/gitian-descriptors/gitian-linux.yml
+	./bin/gverify -v -d ../gitian.sigs/ -r ${VERSION} ../zclassic/contrib/gitian-descriptors/gitian-linux.yml
 	popd
 fi
 

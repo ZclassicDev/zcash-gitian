@@ -49,7 +49,7 @@ package manager, make sure it is callable using the command 'gpg2'. For instance
 
 You'll be asked to (optionally) refer to a gpg key in gitian.yml.
 
-You can generate a keypair specifically for zcash gitian builds with a command like the one below.
+You can generate a keypair specifically for zclassic gitian builds with a command like the one below.
 
 ```
 gpg2 --quick-gen-key --batch --passphrase '' "Harry Potter (zcash gitian) <hpotter@hogwarts.wiz>"
@@ -91,12 +91,15 @@ sub   rsa2048 2018-03-14 [E]
 ```
 
 We'll use two values from the above output in our gitian.yml file:
-- For gpg_key_id we'll use the id for the 'pub' key. In the example output shown here, that is a 40
-character value. Other versions of gpg may truncate this value, e.g. to 8 or 16 characters. In those
-cases you should be able to use the truncated value and it should still work.
-- For gpg_key_name we'll use the the part before the @ symbol of the associated email address.
+- For gpg_key_id we'll use the id for the 'pub' key. In the example output
+shown here, that is a 40 character value. Other versions of gpg may truncate
+this value, e.g. to 8 or 16 characters. In those cases you should be able to
+use the truncated value and it should still work.
+- For gpg_key_name we'll use the the part before the @ symbol of the associated
+email address.
 
-Continuing the above example, we would set the two fields in gitian.yml as follows:
+Continuing the above example, we would set the two fields in gitian.yml
+as follows:
 ```
 gpg_key_id: 564CDA5C132B8CAB54B7BDE65B52696EF083A700
 gpg_key_name: hpotter
@@ -104,16 +107,17 @@ gpg_key_name: hpotter
 
 ## Decide on an ssh keypair to use for gitian
 
-You'll be asked to (optionally) provide an ssh key's filename in gitian.yml. In this example I'm
-using "zcash_gitian_id_rsa".
+You'll be asked to (optionally) provide an ssh key's filename in gitian.yml.
+In this example I'm
+using "zclassic_gitian_id_rsa".
 
-You can generate a keypair specifically for zcash gitian builds like this:
+You can generate a keypair specifically for zclassic gitian builds like this:
 
 ```
-$ ssh-keygen -t rsa -C "hpotter@hogwarts.wiz" -f ~/.ssh/zcash_gitian_id_rsa -N ''
+$ ssh-keygen -t rsa -C "hpotter@hogwarts.wiz" -f ~/.ssh/zclassic_gitian_id_rsa -N ''
 Generating public/private rsa key pair.
-Your identification has been saved in /Users/hpotter/.ssh/zcash_gitian_id_rsa.
-Your public key has been saved in /Users/hpotter/.ssh/zcash_gitian_id_rsa.pub.
+Your identification has been saved in /Users/hpotter/.ssh/zclassic_gitian_id_rsa.
+Your public key has been saved in /Users/hpotter/.ssh/zclassic_gitian_id_rsa.pub.
 The key fingerprint is:
 SHA256:w1ZAgf+Ge+R662PU18ASqx8sZYfg9OxKhE/ZFf9zwvE hpotter@hogwarts.wiz
 The key's randomart image is:
@@ -137,8 +141,8 @@ Some explanation of the arguments used in the above example:
     -C "hpotter@hogwarts.wiz"      Provide an identity to associate with the key (default is
                                    user@host in the local environment)
 
-    -f ~/.ssh/zcash_gitian_id_rsa  Path to the private key to generate. The corresponding public key
-                                   will be saved at ~/.ssh/zcash_gitian_id_rsa.pub
+    -f ~/.ssh/zclassic_gitian_id_rsa  Path to the private key to generate. The corresponding public key
+                                   will be saved at ~/.ssh/zclassic_gitian_id_rsa.pub
 
     -N ''                          Passphrase for the generated key. An empty string as shown here
                                    means save the private key unencrypted.
@@ -166,7 +170,8 @@ git_email: ''
 # OPTIONAL set to import your GPG key into the VM.
 gpg_key_id: ''
 
-# OPTIONAL set to import your SSH key into the VM. Example: id_rsa, id_ed25519. Assumed to reside in ~/.ssh
+# OPTIONAL set to import your SSH key into the VM. Example: id_rsa, id_ed25519.
+# Assumed to reside in ~/.ssh
 ssh_key_name: ''
 ```
 
@@ -184,8 +189,8 @@ This will provision a Gitian host virtual machine that uses a Linux container (L
 
 Use `git stash` to save one's local customizations to `gitian.yml`.
 
-Building Zcash
---------------
+Building Zclassic
+-----------------
 
     vagrant ssh zcash-build
     ./gitian-build.sh
@@ -199,14 +204,14 @@ It's also a good idea to regularly `git pull` on this repository to obtain updat
 Generating and uploading signatures
 -----------------------------------
 
-After the build successfully completes, `gsign` will be called. Commit and push your signatures (both the .assert and .assert.sig files) to the [zcash/gitian.sigs](https://github.com/zcash/gitian.sigs) repository, or if that's not possible then create a pull request.
+After the build successfully completes, `gsign` will be called. Commit and push your signatures (both the .assert and .assert.sig files) to the [ZclassicDev/gitian.sigs](https://github.com/ZclassicDev/gitian.sigs) repository, or if that's not possible then create a pull request.
 
-Signatures can be verified by running `gitian-build.sh --verify`, but set `build=false` in the script to skip building. Run a `git pull` beforehand on `gitian.sigs` so you have the latest. The provisioning includes a task which imports Zcash developer public keys to the Vagrant user's keyring and sets them to ultimately trusted, but they can also be found at `contrib/gitian-downloader` within the Zcash source repository.
+Signatures can be verified by running `gitian-build.sh --verify`, but set `build=false` in the script to skip building. Run a `git pull` beforehand on `gitian.sigs` so you have the latest. The provisioning includes a task which imports Zcash & Zclassic developer public keys to the Vagrant user's keyring and sets them to ultimately trusted, but they can also be found at `contrib/gitian-downloader` within the Zcash source repository.
 
 Working with GPG and SSH
 --------------------------
 
-We provide two options for automatically importing keys into the VM, or you may choose to copy them manually. Keys are needed A) to sign the manifests which get pushed to [gitian.sigs](https://github.com/zcash/gitian.sigs) and B) to interact with GitHub, if you choose to use an SSH instead of HTTPS remote. The latter would entail always providing your GitHub login and [access token](https://github.com/settings/tokens) in order to push from within the VM.
+We provide two options for automatically importing keys into the VM, or you may choose to copy them manually. Keys are needed A) to sign the manifests which get pushed to [gitian.sigs](https://github.com/ZclassicDev/gitian.sigs) and B) to interact with GitHub, if you choose to use an SSH instead of HTTPS remote. The latter would entail always providing your GitHub login and [access token](https://github.com/settings/tokens) in order to push from within the VM.
 
 Your local SSH agent is automatically forwarded into the VM via a configuration option. If you run ssh-agent, your keys should already be available.
 
